@@ -1,4 +1,4 @@
-package com.apibooks.exception.dev;
+package com.apibooks.dev.exception;
 
 public class BookNotFoundException extends RuntimeException {
 	public BookNotFoundException(Long id) {

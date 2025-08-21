@@ -1,4 +1,4 @@
-package com.apibooks.model.dev;
+package com.apibooks.dev.model;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Book {
 	
-	@Id @GeneratedValue private Long id_livro;
+	@Id @GeneratedValue private Long id;
 	
 	private String titulo;
 	
@@ -21,8 +21,8 @@ public class Book {
 
 	public Book() {}
 
-	public Book(Long id_livro, String titulo, String autor, String genero, String status) {
-		this.id_livro = id_livro;
+	public Book(Long id, String titulo, String autor, String genero, String status) {
+		this.id = id;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.genero = genero;
@@ -30,11 +30,11 @@ public class Book {
 	}
 
 	public Long getId_livro() {
-		return id_livro;
+		return id;
 	}
 
 	public void setId_livro(Long id_livro) {
-		this.id_livro = id_livro;
+		this.id = id_livro;
 	}
 
 	public String getTitulo() {
@@ -71,7 +71,7 @@ public class Book {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(autor, genero, id_livro, status, titulo);
+		return Objects.hash(autor, genero, id, status, titulo);
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class Book {
 			return false;
 		Book other = (Book) obj;
 		return Objects.equals(autor, other.autor) && Objects.equals(genero, other.genero)
-				&& Objects.equals(id_livro, other.id_livro) && Objects.equals(status, other.status)
+				&& Objects.equals(id, other.id) && Objects.equals(status, other.status)
 				&& Objects.equals(titulo, other.titulo);
 	}
 }

@@ -1,4 +1,4 @@
-package com.apibooks.controller.dev;
+package com.apibooks.dev.controller;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.apibooks.exception.dev.BookNotFoundException;
-import com.apibooks.model.dev.Book;
-import com.apibooks.repository.dev.BookRepository;
+import com.apibooks.dev.exception.BookNotFoundException;
+import com.apibooks.dev.model.Book;
+import com.apibooks.dev.repository.BookRepository;
 
 @RestController
 public class BookController {

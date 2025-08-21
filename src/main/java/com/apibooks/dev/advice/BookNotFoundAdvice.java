@@ -1,11 +1,11 @@
-package com.apibooks.advice.dev;
+package com.apibooks.dev.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.apibooks.exception.dev.BookNotFoundException;
+import com.apibooks.dev.exception.BookNotFoundException;
 
 @RestControllerAdvice
 public class BookNotFoundAdvice {

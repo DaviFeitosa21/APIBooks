@@ -1,8 +1,8 @@
-package com.apibooks.repository.dev;
+package com.apibooks.dev.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.apibooks.model.dev.Book;
+import com.apibooks.dev.model.Book;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
