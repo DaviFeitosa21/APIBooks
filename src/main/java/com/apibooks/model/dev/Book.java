@@ -2,9 +2,14 @@ package com.apibooks.model.dev;
 
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Book {
 	
-	private Long id_livro;
+	@Id @GeneratedValue private Long id_livro;
 	
 	private String titulo;
 	
