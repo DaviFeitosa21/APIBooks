@@ -30,7 +30,7 @@ public class BookController {
 	
 	private final BookModelAssembler assembler;
 	
-	BookController(BookService service, BookModelAssembler assembler) {
+	public BookController(BookService service, BookModelAssembler assembler) {
 		this.service = service;
 		this.assembler = assembler;
 	}
@@ -51,9 +51,7 @@ public class BookController {
 	
 	@PostMapping("/books")
 	ResponseEntity<?> newBook(@RequestBody BookDTO dto) {
-		Book book = new Book(null, dto.getTitulo(), dto.getAutor(), dto.getGenero(), dto.getStatus());
-		Book savedBook = service.newBook(book);
-		
+		Book savedBook = service.newBook(dto);
 		EntityModel<Book> bookModel = assembler.toModel(savedBook);
 
 		return ResponseEntity

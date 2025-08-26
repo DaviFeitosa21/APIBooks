@@ -28,7 +28,12 @@ public class BookService {
 				.orElseThrow(() -> new BookNotFoundException(id));
 	}
 	
-	public Book newBook(Book book) {
+	public Book newBook(BookDTO dto) {
+		Book book = new Book();
+	    book.setTitulo(dto.getTitulo());
+	    book.setAutor(dto.getAutor());
+	    book.setGenero(dto.getGenero());
+	    book.setStatus(dto.getStatus());
 		return repository.save(book);
 	}
 	
