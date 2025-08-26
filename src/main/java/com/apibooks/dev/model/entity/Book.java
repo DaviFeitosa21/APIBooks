@@ -1,4 +1,4 @@
-package com.apibooks.dev.model;
+package com.apibooks.dev.model.entity;
 
 import java.util.Objects;
 

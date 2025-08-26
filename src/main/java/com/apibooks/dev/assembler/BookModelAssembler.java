@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.apibooks.dev.controller.BookController;
-import com.apibooks.dev.model.Book;
+import com.apibooks.dev.model.entity.Book;
 
 @Component
 public class BookModelAssembler implements RepresentationModelAssembler<Book, EntityModel<Book>> {

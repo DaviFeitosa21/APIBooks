@@ -19,72 +19,61 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.apibooks.dev.assembler.BookModelAssembler;
-import com.apibooks.dev.exception.BookNotFoundException;
-import com.apibooks.dev.model.Book;
-import com.apibooks.dev.repository.BookRepository;
+import com.apibooks.dev.model.dto.BookDTO;
+import com.apibooks.dev.model.entity.Book;
+import com.apibooks.dev.service.BookService;
 
 @RestController
 public class BookController {
 
-	private final BookRepository repository;
+	private final BookService service;
 	
 	private final BookModelAssembler assembler;
 	
-	BookController(BookRepository repository, BookModelAssembler assembler) {
-		this.repository = repository;
+	BookController(BookService service, BookModelAssembler assembler) {
+		this.service = service;
 		this.assembler = assembler;
 	}
 	
 	@GetMapping("/books")
 	public CollectionModel<EntityModel<Book>> all() {
-		List<EntityModel<Book>> books = repository.findAll().stream()
+		List<EntityModel<Book>> books = service.all().stream()
 			      .map(assembler::toModel)
 			      .collect(Collectors.toList());
 
-			  return CollectionModel.of(books, linkTo(methodOn(BookController.class).all()).withSelfRel());
+		return CollectionModel.of(books, linkTo(methodOn(BookController.class).all()).withSelfRel());
 	}
 	
 	@GetMapping("/books/{id}")
 	public EntityModel<Book> one(@PathVariable Long id) {
-		Book book = repository.findById(id)
-				.orElseThrow(() -> new BookNotFoundException(id));
-
-		return assembler.toModel(book);
+		return assembler.toModel(service.one(id));
 	}
 	
 	@PostMapping("/books")
-	ResponseEntity<?> newBook(@RequestBody Book newBook) {
-		EntityModel<Book> bookModel = assembler.toModel(repository.save(newBook));
+	ResponseEntity<?> newBook(@RequestBody BookDTO dto) {
+		Book book = new Book(null, dto.getTitulo(), dto.getAutor(), dto.getGenero(), dto.getStatus());
+		Book savedBook = service.newBook(book);
+		
+		EntityModel<Book> bookModel = assembler.toModel(savedBook);
 
-		  return ResponseEntity
-		      .created(bookModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-		      .body(bookModel);
+		return ResponseEntity
+				.created(bookModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+				.body(bookModel);
 	}
 	
 	@PutMapping("/books/{id}")
-	ResponseEntity<?> replaceBook(@RequestBody Book newBook,@PathVariable Long id) {
-		Book updateBook = repository.findById(id)
-			      .map(book -> {
-			        book.setTitulo(newBook.getTitulo());
-			        book.setAutor(newBook.getAutor());
-			        book.setGenero(newBook.getGenero());
-			        book.setStatus(newBook.getStatus());
-			        return repository.save(book);
-			      })
-			      .orElseGet(() -> {
-			        return repository.save(newBook);
-			      });
+	ResponseEntity<?> updateBook(@RequestBody BookDTO dto,@PathVariable Long id) {
+		Book updateBook = service.updateBook(id, dto);
+		EntityModel<Book> bookModel = assembler.toModel(updateBook);
 
-			  EntityModel<Book> bookModel = assembler.toModel(updateBook);
-
-			  return ResponseEntity
-			      .created(bookModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-			      .body(bookModel);
+		return ResponseEntity
+				.created(bookModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+				.body(bookModel);
 	}
 	
 	@DeleteMapping("/books/{id}")
 	ResponseEntity<?> deleteBook(@PathVariable Long id) {
-		repository.deleteById(id);
+		service.deleteBook(id);
 		
 		return ResponseEntity.noContent().build();
 	}	
